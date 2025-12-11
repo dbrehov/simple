@@ -1,6 +1,7 @@
 import { launchBrowser } from './launch';
 import { Page } from 'playwright';
 import axios from 'axios';
+import fs from 'fs';
 import FormData from 'form-data';
 import config from './config';
 
