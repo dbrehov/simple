@@ -45,7 +45,8 @@ async function run(headless: boolean = true) {
     await page.waitForSelector('body');
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    console.log((await page.evaluate(el => {return el.innerText}, await page.waitForXPath('//div[@id="transcript"]')))
+    const text = await page.locator('//div[@id="transcript"]').innerText();
+    console.log(text);
     await scren(page, `Ваш`);
   } catch (err) {
     console.error('Ошибка в run:', err);
