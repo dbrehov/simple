@@ -60,11 +60,11 @@ async function run(headless: boolean = true) {
         await new Promise(resolve => setTimeout(resolve, 2000));
         try {
             const text = await page.locator('//div[@id="transcript"]').innerText({ timeout: 60000 });
+            allText += text + '\n\n'; // добавляем с разделением
         console.log(text);
         } catch {
             console.log(`Транскрипт не найден для видео ${id}`);
         }
-        allText += text + '\n\n'; // добавляем с разделением
 ;
     }
     const filePath = 'all_transcripts.txt';
