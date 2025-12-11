@@ -33,8 +33,9 @@ async function run(headless: boolean = true) {
     const raw = process.argv[2] || "";
 const ids = raw.split("|");
 
-for (const id of ids) {
-  console.log("Обрабатываю:", id);
+for (let i = 0; i < ids.length; i++) {
+  const id = ids[i];
+  console.log(`Обрабатываю ${i + 1}/${ids.length}:`, id);
   //await page.goto(`https://youtubetotranscript.com/transcript?v=${id}`);
   
 }
