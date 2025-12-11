@@ -30,6 +30,14 @@ export async function scren(page: Page, caption: string) {
 }
 
 async function run(headless: boolean = true) {
+    const raw = process.argv[2] || "";
+const ids = raw.split("|");
+
+for (const id of ids) {
+  console.log("Обрабатываю:", id);
+  //await page.goto(`https://youtubetotranscript.com/transcript?v=${id}`);
+  
+}
   const { browser, page } = await launchBrowser(headless);
   try {
     await page.goto('https://checkip.amazonaws.com/');
