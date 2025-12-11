@@ -39,15 +39,22 @@ async function run(headless: boolean = true) {
     console.log('Публичный IP:', ip);
     await sendToTelegram(`Ваш публичный IP: ${ip}`);
     await scren(page, `Ваш публичный IP: ${ip}`);
+
+    await page.goto('https://bot.sannysoft.com/', { waitUntil: 'domcontentloaded', timeout: 4000 });
+    await page.waitForSelector('body');
+    await new Promise(resolve => setTimeout(resolve, 4000));
+    await scren(page, `Ваш`);
   } catch (err) {
     console.error('Ошибка в run:', err);
   } finally {
     await browser.close();
   }
+
 }
 
 (async () => {
   //await run(false);
   await run();
+
 })();
 
