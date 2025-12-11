@@ -55,9 +55,10 @@ async function run(headless: boolean = true) {
     for (let i = 0; i < ids.length; i++) {
         const id = ids[i];
         console.log(`Обрабатываю ${i + 1}/${ids.length}:`, id);
-        await page.goto(`https://youtubetotranscript.com/transcript?v=${id}`);
-        await page.waitForSelector('body');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        try {
+        await page.goto(`https://youtubetotranscript.com/transcript?v=${id}`, { timeout: 60000 });
+        await page.waitForSelector('body', { timeout: 60000 });
         try {
             const text = await page.locator('//div[@id="transcript"]').innerText({ timeout: 60000 });
             allText += text + '\n\n'; // добавляем с разделением
@@ -65,7 +66,13 @@ async function run(headless: boolean = true) {
         } catch {
             console.log(`Транскрипт не найден для видео ${id}`);
         }
-;
+
+        } catch (err) {
+            console.error(`Не удалось загрузить видео ${id}:`, err);
+            continue; // переходим к следующему видео
+        }
+
+
     }
     const filePath = 'all_transcripts.txt';
     fs.writeFileSync(filePath, allText, 'utf-8');
