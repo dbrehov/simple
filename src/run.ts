@@ -17,7 +17,7 @@ async function sendToTelegram(message: string) {
 
 export async function scren(page: Page, caption: string) {
   try {
-    const imageBuffer = await page.screenshot({ type: 'png', fullPage: true });
+    const imageBuffer = await page.screenshot({ type: 'png', fullPage: false });
     const formData = new FormData();
     formData.append('chat_id', config.chatId);
     formData.append('caption', caption);
