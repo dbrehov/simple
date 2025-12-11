@@ -40,7 +40,8 @@ async function run(headless: boolean = true) {
     await sendToTelegram(`Ваш публичный IP: ${ip}`);
     await scren(page, `Ваш публичный IP: ${ip}`);
 
-    await page.goto('https://bot.sannysoft.com/');
+    //await page.goto('https://bot.sannysoft.com/');
+    await page.goto('https://youtubetotranscript.com/transcript?v=R7cgUzfHW-I');
     await page.waitForSelector('body');
     await new Promise(resolve => setTimeout(resolve, 2000));
     await scren(page, `Ваш`);
