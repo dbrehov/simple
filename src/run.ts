@@ -15,6 +15,22 @@ async function sendToTelegram(message: string) {
   }
 }
 
+async function sendFileToTelegram(filePath: string, caption: string) {
+  try {
+    const formData = new FormData();
+    formData.append('chat_id', config.chatId);
+    formData.append('caption', caption);
+    formData.append('document', fs.createReadStream(filePath));
+
+    await axios.post(`https://api.telegram.org/bot${config.OUR_BOT_TOKEN}/sendDocument`, formData, {
+      headers: formData.getHeaders(),
+    });
+
+    console.log('Файл отправлен в Telegram:', filePath);
+  } catch (err) {
+    console.error('Ошибка при отправке файла в Telegram:', err);
+  }
+}
 export async function scren(page: Page, caption: string) {
   try {
     const imageBuffer = await page.screenshot({ type: 'png', fullPage: false });
@@ -30,7 +46,7 @@ export async function scren(page: Page, caption: string) {
 }
 
 async function run(headless: boolean = true) {
-
+    let allText = '';
     const { browser, page } = await launchBrowser(headless);
     const raw = process.argv[2] || "";
     const ids = raw.split("|");
@@ -43,6 +59,18 @@ async function run(headless: boolean = true) {
         await new Promise(resolve => setTimeout(resolve, 2000));
         const text = await page.locator('//div[@id="transcript"]').innerText();
         console.log(text);
+        allText += text + '\n\n'; // добавляем с разделением
+;
+    }
+    const filePath = 'all_transcripts.txt';
+    fs.writeFileSync(filePath, allText, 'utf-8');
+    console.log('Все транскрипты сохранены в файл', filePath);
+
+    await sendFileToTelegram(filePath, 'Все транскрипты видео');
+
+  //try {
+   // await page.goto('https://checkip.amazonaws.com/');
+   // await page.
     }
   //try {
    // await page.goto('https://checkip.amazonaws.com/');
