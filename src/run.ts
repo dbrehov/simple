@@ -53,8 +53,8 @@ async function run(headless: boolean = true) {
 }
 
 (async () => {
-  //await run(false);
-  await run();
+  await run(false);
+  //await run();
 
 })();
 
