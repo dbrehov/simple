@@ -72,7 +72,7 @@ async function run(headless: boolean = true) {
   //try {
    // await page.goto('https://checkip.amazonaws.com/');
    // await page.
-    }
+    //}
   //try {
    // await page.goto('https://checkip.amazonaws.com/');
    // await page.waitForSelector('body');
