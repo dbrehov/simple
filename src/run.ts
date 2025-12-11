@@ -30,38 +30,42 @@ export async function scren(page: Page, caption: string) {
 }
 
 async function run(headless: boolean = true) {
-    const raw = process.argv[2] || "";
-const ids = raw.split("|");
 
-for (let i = 0; i < ids.length; i++) {
-  const id = ids[i];
-  console.log(`Обрабатываю ${i + 1}/${ids.length}:`, id);
-  //await page.goto(`https://youtubetotranscript.com/transcript?v=${id}`);
-  
-}
-  const { browser, page } = await launchBrowser(headless);
-  try {
-    await page.goto('https://checkip.amazonaws.com/');
-    await page.waitForSelector('body');
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const ip = await page.evaluate(() => document.body.innerText.trim());
-    console.log('Публичный IP:', ip);
-    await sendToTelegram(`Ваш публичный IP: ${ip}`);
-    await scren(page, `Ваш публичный IP: ${ip}`);
+    const { browser, page } = await launchBrowser(headless);
+    const raw = process.argv[2] || "";
+    const ids = raw.split("|");
+
+    for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        console.log(`Обрабатываю ${i + 1}/${ids.length}:`, id);
+        await page.goto(`https://youtubetotranscript.com/transcript?v=${id}`);
+        await page.waitForSelector('body');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const text = await page.locator('//div[@id="transcript"]').innerText();
+        console.log(text);
+    }
+  //try {
+   // await page.goto('https://checkip.amazonaws.com/');
+   // await page.waitForSelector('body');
+   // await new Promise(resolve => setTimeout(resolve, 2000));
+   // const ip = await page.evaluate(() => document.body.innerText.trim());
+   // console.log('Публичный IP:', ip);
+   // await sendToTelegram(`Ваш публичный IP: ${ip}`);
+   // await scren(page, `Ваш публичный IP: ${ip}`);
 
     //await page.goto('https://bot.sannysoft.com/');
-    await page.goto('https://youtubetotranscript.com/transcript?v=R7cgUzfHW-I');
-    await page.waitForSelector('body');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+   // await page.goto('https://youtubetotranscript.com/transcript?v=R7cgUzfHW-I');
+   // await page.waitForSelector('body');
+   // await new Promise(resolve => setTimeout(resolve, 2000));
 
-    const text = await page.locator('//div[@id="transcript"]').innerText();
-    console.log(text);
-    await scren(page, `Ваш`);
-  } catch (err) {
-    console.error('Ошибка в run:', err);
-  } finally {
-    await browser.close();
-  }
+   // const text = await page.locator('//div[@id="transcript"]').innerText();
+   // console.log(text);
+  //  await scren(page, `Ваш`);
+  //} catch (err) {
+   // console.error('Ошибка в run:', err);
+  //} finally {
+    //await browser.close();
+  //}
 
 }
 
