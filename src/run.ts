@@ -58,8 +58,12 @@ async function run(headless: boolean = true) {
         await page.goto(`https://youtubetotranscript.com/transcript?v=${id}`);
         await page.waitForSelector('body');
         await new Promise(resolve => setTimeout(resolve, 2000));
-        const text = await page.locator('//div[@id="transcript"]').innerText();
+        try {
+            const text = await page.locator('//div[@id="transcript"]').innerText({ timeout: 60000 });
         console.log(text);
+        } catch {
+            console.log(`Транскрипт не найден для видео ${id}`);
+        }
         allText += text + '\n\n'; // добавляем с разделением
 ;
     }
